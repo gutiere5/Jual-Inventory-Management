@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import AxiosClient from '../api/axios-client';
-import { CanvasObjectSchema, CanvasObject } from '@repo/types/canvasObject.schema';
+import { CanvasObjectSchema } from '@repo/types/canvasObject.schema';
+import type { CanvasObject } from '@repo/types/canvasObject.schema';
 
 export const canvasObjectService = {
   getAll: async (): Promise<CanvasObject[]> => {

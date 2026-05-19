@@ -21,7 +21,7 @@ function MainMenu() {
           <p>Loading...</p>
         ) : (
           canvasData?.map((canvas) => (
-            <Link to={`/canvas/${String(canvas.id)}`} state={canvas.content} key={canvas.id}>
+            <Link to={`/canvas/${String(canvas.id)}`} key={canvas.id}>
               <button className="canvas-button">
                 <h2>{canvas.name}</h2>
                 <p>{canvas.createdAt}</p>

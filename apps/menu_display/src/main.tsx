@@ -5,7 +5,7 @@ import App from './App';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './components/errorPage/error-page';
 import MainMenu from './components/mainMenu/main-menu';
-import canvasDisplay from './components/canvasDisplay/canvas-display';
+import canvasDisplay from './components/canvasDisplay/CanvasDisplay';
 import { QueryClientProvider } from '@tanstack/react-query';
 import queryClient from './api/query-client';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';

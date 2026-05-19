@@ -12,7 +12,7 @@ export default [
     languageOptions: {
       parserOptions: {
         projectService: {
-          allowDefaultProject: ['eslint.config.mjs', 'vite.config.ts'],
+          allowDefaultProject: ['eslint.config.mjs', 'vite.config.ts', 'vitest.config.ts'],
         },
       },
     },

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import { logger } from "../middleware/logger";
 import { prismaClient } from "..";
-import { CanvasObject } from "@repo/types/canvasObject.schema";
+import type { CanvasObject } from "@repo/types/canvasObject.schema";
 
 type CanvasBody = Pick<CanvasObject, "name" | "content">;
 
