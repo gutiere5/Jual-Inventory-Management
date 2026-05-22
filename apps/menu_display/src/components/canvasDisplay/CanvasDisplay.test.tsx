@@ -134,14 +134,12 @@ describe('Canvas Display', () => {
   });
 });
 
-//   it.todo('should render statge with canvassettings.width and height when full screen');
-//   it.todo('Should make rect fill equal to canvassetting.background color and listerning to false');
-
-//   it.todo(
-//     'should Renders one CanvasItem per canvasData.content.items with key === item.instanceId and item passed as prop.',
-//   );
-
-//   it.todo('Should return home when home button is clicked');
-//   it.todo('Should render a full screen button');
-//   it.todo('Check the state the screen is full screen');
-//   it.todo('Check the state the that the screen is not full screen');
+it.todo('should render statge with canvassettings.width and height when full screen');
+it.todo('Should make rect fill equal to canvassetting.background color and listerning to false');
+it.todo(
+  'should Renders one CanvasItem per canvasData.content.items with key === item.instanceId and item passed as prop.',
+);
+it.todo('Should return home when home button is clicked');
+it.todo('Should render a full screen button');
+it.todo('Check the state the screen is full screen');
+it.todo('Check the state the that the screen is not full screen');

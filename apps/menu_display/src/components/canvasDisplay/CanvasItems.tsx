@@ -1,20 +1,20 @@
 import type { CanvasItem } from '@repo/types/canvasObject.schema';
-import { JSX } from 'react';
 import MenuItem from './MenuItem';
 import { Circle, Line, Rect, Text } from 'react-konva';
 
-const CanvasItemMap: Record<CanvasItem['type'], (props: { item: CanvasItem }) => JSX.Element> = {
-  rect: ({ item }) => <Rect {...item} />,
-  line: ({ item }) => <Line {...item} />,
-  circle: ({ item }) => <Circle {...item} />,
-  text: ({ item }) => <Text {...item} />,
-  menu: ({ item }) => <MenuItem {...item} />,
+const CanvasItemRenderer = ({ item }: { item: CanvasItem }) => {
+  switch (item.type) {
+    case 'rect':
+      return <Rect {...item} />;
+    case 'line':
+      return <Line {...item} />;
+    case 'circle':
+      return <Circle {...item} />;
+    case 'text':
+      return <Text {...item} />;
+    case 'menu':
+      return <MenuItem {...item} />;
+  }
 };
 
-const CanvasItem = ({ item }: { item: CanvasItem }) => {
-  const RenderNode = CanvasItemMap[item.type];
-
-  return <RenderNode item={item} />;
-};
-
-export default CanvasItem;
+export default CanvasItemRenderer;
