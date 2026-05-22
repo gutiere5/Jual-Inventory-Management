@@ -7,8 +7,7 @@
     "db:format": "prisma format ",
     "generate": "prisma generate",
     "lint": "eslint . || true",
-    "prebuild": "npm run generate",
-    "predev": "npm run generate",
+    "lint:fix": "eslint . --fix ",
     "studio": "prisma studio",
     "format": "prettier --write ."
   },

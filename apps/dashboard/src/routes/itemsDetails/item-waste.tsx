@@ -24,7 +24,7 @@ const ItemWasteTracking = ({ currentItem }: Props) => {
         <p className="card-description">Track damaged, expired, or discarded inventory</p>
       </div>
       <div className="card-content">
-        {currentItem.waste && currentItem.waste.length > 0 ? (
+        {currentItem.waste.length > 0 ? (
           <div className="transactions-list">
             {currentItem.waste.map((waste, index) => (
               <div key={index} className="transaction-item">

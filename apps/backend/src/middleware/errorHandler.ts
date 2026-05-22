@@ -48,9 +48,9 @@ export const errorHandler = (
       break;
   }
 
-  logger.error(`${title}: [${statusCode}] ${err.message}`);
+  logger.error(`${title}: [${String(statusCode)}] ${err.message}`);
   if (process.env.NODE_ENV !== "production") {
-    logger.error(`Stack: ${err.stack}`);
+    logger.error(`Stack: ${String(err.stack)}`);
   }
 
   res.status(statusCode).json({

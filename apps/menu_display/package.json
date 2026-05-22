@@ -6,32 +6,43 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:dev": "vitest",
     "lint": "eslint . || true",
+    "lint:fix": "eslint . --fix ",
     "preview": "vite preview",
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@repo/assets": "*",
     "@repo/types": "*",
     "@repo/ui": "^0.0.1",
-    "@repo/assets": "*",
+    "@tanstack/react-query": "^5.99.0",
     "axios": "1.13.2",
     "konva": "^10.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^7.13.0",
+    "react-full-screen": "^1.1.1",
     "react-konva": "^19.2.3",
+    "react-router-dom": "^7.13.0",
     "screenfull": "^6.0.2",
-    "use-image": "^1.1.4",
-    "zod": "^4.3.6"
+    "use-image": "^1.1.4"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
+    "@tanstack/react-query-devtools": "^5.100.9",
+    "@testing-library/jest-dom": "^6.9.1",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
+    "@vitest/coverage-v8": "^4.1.5",
+    "@vitest/ui": "^4.1.5",
+    "jsdom": "^29.1.1",
     "typescript": "latest",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vitest": "^4.1.5"
   }
 }

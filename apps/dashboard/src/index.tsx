@@ -39,7 +39,10 @@ const router = createBrowserRouter([
   },
 ]);
 
-createRoot(document.getElementById('root')!).render(
+const container = document.getElementById('root');
+if (!container) throw new Error('Failed to find the root element. Check index.html');
+
+createRoot(container).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />

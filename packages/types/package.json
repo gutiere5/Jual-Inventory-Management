@@ -14,9 +14,9 @@
       "types": "./src/item.schema.ts",
       "default": "./dist/item.schema.js"
     },
-    "./canvasItem.schema": {
-      "types": "./src/canvasItem.schema.ts",
-      "default": "./dist/canvasItem.schema.js"
+    "./canvasObject.schema": {
+      "types": "./src/canvasObject.schema.ts",
+      "default": "./dist/canvasObject.schema.js"
     }
   },
   "devDependencies": {

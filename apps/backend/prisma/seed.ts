@@ -9,7 +9,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { DATABASE_URL } from "../src/secrets";
 import { logger } from "../src/middleware/logger";
 
-const connectionString = `${DATABASE_URL}`;
+const connectionString = DATABASE_URL;
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
@@ -266,7 +266,7 @@ async function main() {
 }
 
 main()
-  .catch((e: Error) => {
+  .catch((e: unknown) => {
     logger.error("Error seeding database", { error: e });
     process.exit(1);
   })

@@ -7,9 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint . || true",
+    "lint:fix": "eslint . --fix ",
     "preview": "vite preview",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@repo/assets": "*",
@@ -22,13 +22,14 @@
     "react-router-dom": "^7.13.0"
   },
   "devDependencies": {
+    "@repo/typescript-config": "*",
     "@repo/eslint-config": "*",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "prettier": "^3.7.4",
-    "typescript": "~5.9.3",
+    "typescript": "latest",
     "vite": "^7.2.4"
   },
   "resolutions": {

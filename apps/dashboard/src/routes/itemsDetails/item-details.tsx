@@ -44,7 +44,7 @@ function ItemDetails() {
       {updateMutation.isSuccess && !isEditing && (
         <div className="alert alert-success">
           <CheckCircle className="icon-small" />
-          {updateMutation.status === 'success' && 'Item updated successfully!'}
+          <p>Item updated successfully!</p>
         </div>
       )}
 
@@ -66,7 +66,9 @@ function ItemDetails() {
                   className="edit-title-input"
                   defaultValue={currentItem.name}
                   required
-                  onChange={(e) => setCurrentItem({ ...currentItem, name: e.target.value })}
+                  onChange={(e) => {
+                    setCurrentItem({ ...currentItem, name: e.target.value });
+                  }}
                 />
               ) : (
                 <h1 style={{ margin: 0 }}>{item.name}</h1>
@@ -100,7 +102,9 @@ function ItemDetails() {
                 key="cancel-btn"
                 type="button"
                 className="action-button cancel-button"
-                onClick={() => setIsEditing(false)}
+                onClick={() => {
+                  setIsEditing(false);
+                }}
               >
                 <X className="icon-small" />
                 Cancel
@@ -108,7 +112,12 @@ function ItemDetails() {
             </>
           ) : (
             <>
-              <button className="action-button" onClick={() => setIsEditing(true)}>
+              <button
+                className="action-button"
+                onClick={() => {
+                  setIsEditing(true);
+                }}
+              >
                 <Edit className="icon-small" />
                 Edit
               </button>

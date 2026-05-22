@@ -5,7 +5,7 @@ const ListView = ({ filteredItems }: { filteredItems: Item[] }) => {
   return (
     <div className="list-view-container">
       {filteredItems.map((item) => (
-        <NavLink to={`/items/${item.id}`} key={item.id}>
+        <NavLink to={`/items/${String(item.id)}`} key={item.id}>
           <button key={item.id} className="list-card">
             <img src={item.image_url} alt={item.name} className="list-image" />
 

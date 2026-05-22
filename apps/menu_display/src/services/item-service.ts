@@ -1,11 +1,11 @@
 import { Item } from '@repo/types/item.schema';
-import apiClient from '../api/client';
+import AxiosClient from '../api/axios-client';
 import { z } from 'zod';
 
 export const itemService = {
   getAll: async () => {
     try {
-      const response = await apiClient.get<{ items: Item[] }>('item');
+      const response = await AxiosClient.get<{ items: Item[] }>('item');
       const parsed = z.array(Item).safeParse(response.data.items);
 
       if (!parsed.success) {
@@ -21,9 +21,9 @@ export const itemService = {
     }
   },
 
-  getById: async (id: number) => {
+  getById: async (id: string) => {
     try {
-      const response = await apiClient.get<{ item: unknown }>(`item/${id}`);
+      const response = await AxiosClient.get<{ item: unknown }>(`item/${id}`);
       const parsed = Item.safeParse(response.data.item);
       if (!parsed.success) {
         throw new Error(

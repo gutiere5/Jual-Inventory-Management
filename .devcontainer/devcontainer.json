@@ -17,9 +17,12 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
         "files.eol": "\n",
         "eslint.workingDirectories": [{ "mode": "auto" }],
+        "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "vscode-pets.theme": "autumn",
         "vscode-pets.throwBallWithMouse": true
@@ -32,7 +35,8 @@
         "wmaurer.change-case",
         "esbenp.prettier-vscode",
         "ms-azuretools.vscode-containers",
-        "tonybaloney.vscode-pets"
+        "tonybaloney.vscode-pets",
+        "dbaeumer.vscode-eslint"
       ]
     }
   }

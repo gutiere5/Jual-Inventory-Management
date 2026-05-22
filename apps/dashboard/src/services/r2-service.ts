@@ -21,7 +21,7 @@ export const R2Service = {
     });
 
     if (!response.ok) {
-      throw new Error('Upload failed with status ' + response.status);
+      throw new Error('Upload failed with status ' + String(response.status));
     }
   },
 };

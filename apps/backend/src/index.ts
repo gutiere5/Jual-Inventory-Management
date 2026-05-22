@@ -33,10 +33,10 @@ app.use("/", rootRouter);
 app.use(requestLogger);
 app.use(errorHandler);
 
-const connectionString = `${DATABASE_URL}`;
+const connectionString = DATABASE_URL;
 const adapter = new PrismaPg({ connectionString });
 export const prismaClient = new PrismaClient({ adapter });
 
 app.listen(PORT, () => {
-  logger.info(`App Working on port ${PORT}!`);
+  logger.info(`App Working on port ${String(PORT)}!`);
 });

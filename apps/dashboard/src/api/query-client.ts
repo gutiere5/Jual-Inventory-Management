@@ -37,7 +37,7 @@ export function listItemsQueryOptions() {
 export function itemQueryOptions(id: number) {
   return queryOptions({
     queryKey: itemKeys.item(id),
-    queryFn: () => itemService.getById(id),
+    queryFn: () => itemService.getById(String(id)),
     initialData: () => {
       const items = queryClient.getQueryData<Item[]>(itemKeys.list());
       return items?.find((item: Item) => item.id === id);

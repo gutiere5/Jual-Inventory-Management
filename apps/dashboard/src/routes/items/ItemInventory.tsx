@@ -36,14 +36,14 @@ const ItemInventoryContainer = () => {
         </div>
         <div className="inventory-view-toggles">
           <button
-            onClick={() => setViewMode('grid')}
+            onClick={() => { setViewMode('grid'); }}
             className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
             aria-label="Grid View"
           >
             <Grid3x3 />
           </button>
           <button
-            onClick={() => setViewMode('list')}
+            onClick={() => { setViewMode('list'); }}
             className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
             aria-label="List View"
           >
@@ -59,7 +59,7 @@ const ItemInventoryContainer = () => {
           placeholder="Search by name, category, or SKU..."
           className="inventory-search-input"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => { setSearchQuery(e.target.value); }}
         />
       </div>
 

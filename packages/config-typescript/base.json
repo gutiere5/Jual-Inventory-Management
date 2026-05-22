@@ -1,10 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "es2022",
-    "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "target": "es2022",
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "moduleDetection": "force",
@@ -13,6 +13,8 @@
     "inlineSources": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "preserveWatchOutput": true
+    "preserveWatchOutput": true,
+    "allowJs": true,
+    "checkJs": true
   }
 }

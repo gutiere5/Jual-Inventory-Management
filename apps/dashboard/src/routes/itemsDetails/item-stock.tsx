@@ -13,7 +13,7 @@ const ItemStockBatches = ({ currentItem }: Props) => {
   };
 
   function isEmptyStock() {
-    return !currentItem.stock_batch || currentItem.stock_batch.length === 0;
+    return currentItem.stock_batch.length === 0;
   }
 
   return (

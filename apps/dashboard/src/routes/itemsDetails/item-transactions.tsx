@@ -15,7 +15,7 @@ const ItemTransactions = ({ currentItem }: Props) => {
         <p className="card-description">Inventory movement history</p>
       </div>
       <div className="card-content">
-        {currentItem.transaction && currentItem.transaction.length > 0 ? (
+        {currentItem.transaction.length > 0 ? (
           <div className="transactions-list">
             {currentItem.transaction.map((t, index) => {
               const isInbound =

@@ -2,36 +2,38 @@ import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import { logger } from "../middleware/logger";
 import { prismaClient } from "..";
-import type { CanvasFileData } from "@repo/types/canvasItem.schema";
+import type { CanvasObject } from "@repo/types/canvasObject.schema";
 
-type CanvasBody = Pick<CanvasFileData, "name" | "content">;
+type CanvasBody = Pick<CanvasObject, "name" | "content">;
 
 export const getCanvas = asyncHandler(async (req: Request, res: Response) => {
   logger.info("Fetching all canvas data");
   const canvasData = await prismaClient.canvas.findMany();
-  logger.info(`Successfully fetched canvas data: ${canvasData.length} entries`);
-  res.status(200).json({ canvasData: canvasData });
+  logger.info(
+    `Successfully fetched canvas data: ${String(canvasData.length)} entries`,
+  );
+  res.status(200).json(canvasData);
 });
 
 export const getCanvasByID = asyncHandler(
   async (req: Request, res: Response) => {
-    logger.info("Fetching Canvas data by ID");
     const { id } = req.params;
     const canvasId = Number(id);
+    logger.info("Fetching Canvas object: ", canvasId);
 
     const requestedCanvas = await prismaClient.canvas.findUnique({
       where: {
         id: canvasId,
       },
     });
-    logger.info(`Successfully fetched canvas data for ID: ${canvasId}`);
-    res.status(200).json({ canvas: requestedCanvas });
+    logger.info(`Successfully fetched canvas data for ID: ${String(canvasId)}`);
+    res.status(200).json(requestedCanvas);
   },
 );
 
 export const createCanvas = asyncHandler(
   async (req: Request, res: Response) => {
-    const { name, content } = req.body as CanvasFileData;
+    const { name, content } = req.body as CanvasBody;
     logger.info("Creating new canvas with the name " + name);
 
     const existingCanvas = await prismaClient.canvas.findUnique({
@@ -50,7 +52,7 @@ export const createCanvas = asyncHandler(
       },
     });
 
-    logger.info(`Successfully created canvas with ID: ${newCanvas.id}`);
+    logger.info(`Successfully created canvas with ID: ${String(newCanvas.id)}`);
     res.status(201).json({ newCanvas });
   },
 );
@@ -74,7 +76,9 @@ export const updateCanvas = asyncHandler(
       data: { name, content },
     });
 
-    logger.info(`Successfully updated canvas with ID: ${updatedCanvas.id}`);
+    logger.info(
+      `Successfully updated canvas with ID: ${String(updatedCanvas.id)}`,
+    );
     res.status(201).json({ updatedCanvas });
   },
 );
@@ -83,7 +87,7 @@ export const deleteCanvas = asyncHandler(
   async (req: Request, res: Response) => {
     const { id } = req.params as { id: string };
     const canvasId = Number(id);
-    logger.info("Deleting canvas with ID: " + canvasId);
+    logger.info("Deleting canvas with ID: " + String(canvasId));
 
     if (isNaN(canvasId)) {
       logger.warn(`Invalid canvas ID provided: ${id}`);

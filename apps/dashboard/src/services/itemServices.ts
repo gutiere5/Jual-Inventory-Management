@@ -27,7 +27,7 @@ export const itemService = {
     }
   },
 
-  getById: async (id: number) => {
+  getById: async (id: string) => {
     try {
       const response = await AxiosClient.get<{ item: unknown }>(`item/${id}`);
       const parsed = Item.safeParse(response.data.item);
@@ -45,11 +45,12 @@ export const itemService = {
   },
 
   updateItem: async (updatedItem: Item) => {
-    await AxiosClient.put<Item>(`item/${updatedItem.id}`, updatedItem);
-    return itemService.getById(updatedItem.id);
+    const stringId = String(updatedItem.id);
+    await AxiosClient.put<Item>(`item/${stringId}`, updatedItem);
+    return itemService.getById(stringId);
   },
 
-  deleteItem: async (id: number) => {
+  deleteItem: async (id: string) => {
     const response = await AxiosClient.delete<Item>(`items/${id}`);
     return response.data;
   },

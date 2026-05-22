@@ -1,15 +1,17 @@
 import { Group, Text, Image } from 'react-konva';
-import { CanvasItemSchema } from '../CanvasItemTypes';
+import type { CanvasItem } from '@repo/types/canvasObject.schema';
 import useImage from 'use-image';
 
-type MenuCanvasItem = Extract<CanvasItemSchema, { type: 'menu' }>;
+type MenuCanvasItem = Extract<CanvasItem, { type: 'menu' }>;
 
-const MenuItem = ({ item }: { item: MenuCanvasItem }) => {
-  const [image] = useImage(item.image_src);
+const MenuItem = (item: MenuCanvasItem) => {
+  const [image] = useImage(item.image_url);
 
   return (
     <Group id={item.instanceId} {...item}>
-      {item.showImage && image && <Image image={image} x={0} y={0} cornerRadius={[8, 8, 8, 8]} />}
+      {item.showImage && image && (
+        <Image image={image} x={0} y={0} cornerRadius={[8, 8, 8, 8]} width={100} height={100} />
+      )}
       {item.showTitle && (
         <Text text={item.name || 'MenuItem'} x={180} y={10} {...item.titleStyle} />
       )}

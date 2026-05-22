@@ -35,7 +35,7 @@ const LoadProjectModal = ({ onClose }) => {
           <p>Loading...</p>
         ) : (
           <div className="canvas-list">
-            {Canvas?.canvasData.map((canvasItem) => (
+            {Canvas.map((canvasItem) => (
               <div key={canvasItem.id}>
                 <button
                   onClick={() => {

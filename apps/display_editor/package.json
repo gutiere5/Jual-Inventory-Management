@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "vitest",
     "lint": "eslint . || true",
     "preview": "vite preview",
     "format": "prettier --write ."

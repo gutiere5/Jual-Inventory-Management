@@ -14,6 +14,7 @@ COPY --from=prepare /app/out/json/ .
 RUN npm ci
 COPY --from=prepare /app/out/full/ .
 
+RUN npm --workspace backend run generate
 RUN npx turbo run build --filter=backend...
 RUN npm prune --omit=dev
 

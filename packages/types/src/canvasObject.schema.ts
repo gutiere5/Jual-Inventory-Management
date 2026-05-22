@@ -59,17 +59,6 @@ const LineItemSchema = BaseItemSchema.extend({
 
 const MenuItemSchema = BaseItemSchema.extend({
   type: z.literal("menu"),
-  width: z.number(),
-  height: z.number(),
-  fill: z
-    .string()
-    .regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/, "Invalid hex color"),
-  stroke: z
-    .string()
-    .regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/, "Invalid hex color"),
-  strokeWidth: z.number(),
-  opacity: z.number().min(0).max(1),
-  shadowBlur: z.number(),
   showTitle: z.boolean(),
   showImage: z.boolean(),
   showDescription: z.boolean(),
@@ -79,7 +68,7 @@ const MenuItemSchema = BaseItemSchema.extend({
   priceStyle: TextStyleSchema,
   name: z.string(),
   price: z.string(),
-  image_src: z.string(),
+  image_url: z.string(),
   description: z.string().optional(),
 });
 
@@ -104,7 +93,7 @@ export const CanvasItemSchema = z.discriminatedUnion("type", [
   CircleItemSchema,
 ]);
 
-const canvasSettings = z.object({
+export const CanvasSettingsSchema = z.object({
   width: z.number().positive(),
   height: z.number().positive(),
   backgroundColor: z
@@ -114,19 +103,19 @@ const canvasSettings = z.object({
   gridSize: z.number().positive(),
 });
 
-export const CanvasData = z.object({
+export const CanvasDataSchema = z.object({
   items: z.array(CanvasItemSchema),
-  canvasSettings: canvasSettings,
+  canvasSettings: CanvasSettingsSchema,
 });
 
-export const CanvasFileData = z.object({
+export const CanvasObjectSchema = z.object({
   id: z.number(),
   name: z.string(),
-  content: CanvasData,
+  content: CanvasDataSchema,
   createdAt: z.string(),
   updatedAt: z.string(),
 });
 
-export type CanvasData = z.infer<typeof CanvasData>;
-export type CanvasItemSchema = z.infer<typeof CanvasItemSchema>;
-export type CanvasFileData = z.infer<typeof CanvasFileData>;
+export type CanvasData = z.infer<typeof CanvasDataSchema>;
+export type CanvasItem = z.infer<typeof CanvasItemSchema>;
+export type CanvasObject = z.infer<typeof CanvasObjectSchema>;

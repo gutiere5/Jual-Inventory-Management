@@ -6,7 +6,6 @@ import tseslint from "typescript-eslint";
 import globals from "globals";
 
 export const frontendEslintConfig = [
-  ...baseEslintConfig,
   reactEslintConfig.configs.flat.recommended,
   reactEslintConfig.configs.flat["jsx-runtime"],
   reactHooks.configs.flat["recommended-latest"],
@@ -16,7 +15,6 @@ export const frontendEslintConfig = [
       react: { version: "19.2.4" },
     },
     languageOptions: {
-      ecmaVersion: "latest",
       globals: globals.browser,
     },
     rules: {
@@ -27,9 +25,5 @@ export const frontendEslintConfig = [
         { allowConstantExport: true },
       ],
     },
-  },
-  {
-    files: ["vite.config.ts", "vite.config.js"],
-    ...tseslint.configs.disableTypeChecked,
   },
 ];

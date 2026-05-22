@@ -41,9 +41,9 @@ const ItemInformation = ({ isEditing, currentItem, setCurrentItem }: Props) => {
                 className="edit-select"
                 name="category"
                 defaultValue={currentItem.category}
-                onChange={(e) =>
-                  setCurrentItem({ ...currentItem, category: e.target.value as Item['category'] })
-                }
+                onChange={(e) => {
+                  setCurrentItem({ ...currentItem, category: e.target.value as Item['category'] });
+                }}
               >
                 {Category.map((category) => (
                   <option key={category} value={category}>
@@ -62,9 +62,9 @@ const ItemInformation = ({ isEditing, currentItem, setCurrentItem }: Props) => {
                 name="uom"
                 className="edit-input"
                 defaultValue={currentItem.uom}
-                onChange={(e) =>
-                  setCurrentItem({ ...currentItem, uom: e.target.value as Item['uom'] })
-                }
+                onChange={(e) => {
+                  setCurrentItem({ ...currentItem, uom: e.target.value as Item['uom'] });
+                }}
               >
                 {UnitOfMeasure.map((uom) => (
                   <option key={uom} value={uom}>
@@ -85,12 +85,12 @@ const ItemInformation = ({ isEditing, currentItem, setCurrentItem }: Props) => {
                   type="number"
                   className="edit-input"
                   defaultValue={currentItem.low_stock_threshold}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setCurrentItem({
                       ...currentItem,
                       low_stock_threshold: Number(e.target.value),
-                    })
-                  }
+                    });
+                  }}
                 />
               </div>
             ) : (
@@ -121,7 +121,7 @@ const ItemInformation = ({ isEditing, currentItem, setCurrentItem }: Props) => {
           </div>
           <div>
             <h2>Active Batches</h2>
-            <p>{currentItem.stock_batch?.length || 0}</p>
+            <p>{currentItem.stock_batch.length || 0}</p>
           </div>
         </div>
       </div>

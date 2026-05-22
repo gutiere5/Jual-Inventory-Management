@@ -5,7 +5,7 @@ const GridView = ({ filteredItems }: { filteredItems: Item[] }) => {
   return (
     <>
       {filteredItems.map((item) => (
-        <NavLink to={`/items/${item.id}`} key={item.id}>
+        <NavLink to={`/items/${String(item.id)}`} key={item.id}>
           <button className="grid-button" key={item.id}>
             <img src={item.image_url} alt={item.name} className="grid-item-image" />
             <div className="inventory-item-details">

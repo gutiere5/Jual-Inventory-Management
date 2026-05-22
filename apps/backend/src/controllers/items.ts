@@ -26,7 +26,7 @@ export const getItems = asyncHandler(async (req: Request, res: Response) => {
     },
   });
 
-  logger.info(`Successfully fetched ${items.length} items`);
+  logger.info(`Successfully fetched ${String(items.length)} items`);
   res.status(200).json({ items: items });
 });
 
@@ -58,7 +58,7 @@ export const getItemsByID = asyncHandler(
         },
       },
     });
-    logger.info(`Successfully fetched item data for ID: ${itemId}`);
+    logger.info(`Successfully fetched item data for ID: ${String(itemId)}`);
     res.status(200).json({ item: requestedItem });
   },
 );
@@ -77,14 +77,14 @@ export const createItem = asyncHandler(async (req: Request, res: Response) => {
     data: { sku, name, uom, category, low_stock_threshold },
   });
 
-  logger.info(`Successfully created Item ${item.name}`);
+  logger.info(`Successfully created Item ${String(item.name)}`);
   res.status(201).json({ item });
 });
 
 export const updateItem = asyncHandler(async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { id } = req.params as { id: string };
   const itemId = Number(id);
-  logger.info(`Updating item with ID: ${itemId}`);
+  logger.info(`Updating item with ID: ${id}`);
 
   if (isNaN(itemId)) {
     res.status(400);
@@ -99,7 +99,7 @@ export const updateItem = asyncHandler(async (req: Request, res: Response) => {
     data: { name, uom, low_stock_threshold, category, image_url },
   });
 
-  logger.info(`Successfully updated Item ${item.name}`);
+  logger.info(`Successfully updated Item ${String(item.name)}`);
   res.status(201).json({ item });
 });
 
