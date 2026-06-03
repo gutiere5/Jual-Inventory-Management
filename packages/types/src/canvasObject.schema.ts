@@ -66,6 +66,7 @@ const MenuItemSchema = BaseItemSchema.extend({
   titleStyle: TextStyleSchema,
   descriptionStyle: TextStyleSchema,
   priceStyle: TextStyleSchema,
+  itemId: z.string(),
   name: z.string(),
   price: z.string(),
   image_url: z.string(),
@@ -119,3 +120,4 @@ export const CanvasObjectSchema = z.object({
 export type CanvasData = z.infer<typeof CanvasDataSchema>;
 export type CanvasItem = z.infer<typeof CanvasItemSchema>;
 export type CanvasObject = z.infer<typeof CanvasObjectSchema>;
+export type MenuItem = z.infer<typeof MenuItemSchema>;

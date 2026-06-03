@@ -1,12 +1,13 @@
-import { Item } from '@repo/types/item.schema';
-import AxiosClient from '../api/axios-client';
 import { z } from 'zod';
+import AxiosClient from '../api/axios-client';
+import type { Item } from '@repo/types/item.schema';
+import { ItemSchema } from '@repo/types/item.schema';
 
 export const itemService = {
   getAll: async () => {
     try {
       const response = await AxiosClient.get<{ items: Item[] }>('item');
-      const parsed = z.array(Item).safeParse(response.data.items);
+      const parsed = z.array(ItemSchema).safeParse(response.data.items);
 
       if (!parsed.success) {
         const errorDetails = z.prettifyError(parsed.error);
@@ -21,20 +22,10 @@ export const itemService = {
     }
   },
 
-  getById: async (id: string) => {
-    try {
-      const response = await AxiosClient.get<{ item: unknown }>(`item/${id}`);
-      const parsed = Item.safeParse(response.data.item);
-      if (!parsed.success) {
-        throw new Error(
-          `Item ${id} data is corrupted or invalid: \n${z.prettifyError(parsed.error)}`,
-        );
-      }
+  getById: async (id: string): Promise<Item> => {
+    const response = await AxiosClient.get<Item>(`item/${id}`);
+    const parsed = ItemSchema.parse(response.data);
 
-      return parsed.data;
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to get item by ID';
-      throw new Error(`${errorMessage} (during getting all Item from database)`);
-    }
+    return parsed;
   },
 };

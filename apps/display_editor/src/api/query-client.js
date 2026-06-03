@@ -23,6 +23,7 @@ const imageKeys = {
 const menuItemKeys = {
   all: ['menuItems'],
   list: () => [...menuItemKeys.all, 'list'],
+  item: (id) => [...menuItemKeys.list(), id],
 };
 
 const canvasDataKeys = {
@@ -67,6 +68,17 @@ export function listMenuItemsQueryOptions() {
   return queryOptions({
     queryKey: menuItemKeys.list(),
     queryFn: menuItemService.getAll,
+  });
+}
+
+export function menuItemQueryOptions(id) {
+  return queryOptions({
+    queryKey: menuItemKeys.item(id),
+    queryFn: () => menuItemService.getById(id),
+    initialData: () => {
+      const menuItems = queryClient.getQueryData(menuItemKeys.list());
+      return menuItems?.find((item) => item.id === id);
+    },
   });
 }
 

@@ -1,6 +1,8 @@
 import { QueryClient, queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { canvasObjectService } from '../services/canvas-service';
 import type { CanvasObject } from '@repo/types/canvasObject.schema';
+import { itemService } from '../services/item-service';
+import { Item } from '@repo/types/item.schema';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -11,6 +13,12 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+const itemKeys = {
+  all: ['items'] as const,
+  list: () => [...itemKeys.all, 'list'] as const,
+  item: (id: string) => [...itemKeys.list(), id] as const,
+};
 
 const canvasKeys = {
   all: ['canvas'] as const,
@@ -36,8 +44,23 @@ function canvasQueryOptions(id: string) {
   });
 }
 
+function itemQueryOptions(id: string) {
+  return queryOptions({
+    queryKey: itemKeys.item(id),
+    queryFn: () => itemService.getById(id),
+    initialData: () => {
+      const items = queryClient.getQueryData<Item[]>(itemKeys.list());
+      return items?.find((item: Item) => item.id === Number(id));
+    },
+  });
+}
+
 export function useCanvasQuery(id: string) {
   return useSuspenseQuery(canvasQueryOptions(id));
+}
+
+export function useItemQuery(id: string) {
+  return useSuspenseQuery(itemQueryOptions(id));
 }
 
 export default queryClient;

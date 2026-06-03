@@ -6,6 +6,8 @@ import { ASSETS } from '../../constants/assets';
 const AssetSection = () => {
   const { data } = useSuspenseQuery(listMenuItemsQueryOptions());
 
+  console.log(data);
+
   return (
     <>
       <div className="sidebar-section">
@@ -19,6 +21,7 @@ const AssetSection = () => {
               name: data[0]?.name,
               price: data[0]?.price,
               image_url: data[0]?.image_url,
+              id: data[0]?.id,
             }}
           >
             {data[0]?.image_url && (

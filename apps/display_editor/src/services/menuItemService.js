@@ -13,4 +13,8 @@ export const menuItemService = {
       return [];
     }
   },
+  getById: async (id) => {
+    const response = await axiosClient.get(`/item/${id}`);
+    return response.data;
+  },
 };

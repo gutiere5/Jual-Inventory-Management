@@ -1,14 +1,18 @@
-import { Group, Text, Image } from 'react-konva';
-import type { CanvasItem } from '@repo/types/canvasObject.schema';
 import useImage from 'use-image';
+import { Group, Text, Image } from 'react-konva';
+// import { useItemQuery } from '../../api/query-client';
+import type { MenuItem } from '@repo/types/canvasObject.schema';
+import { useEffect } from 'react';
 
-type MenuCanvasItem = Extract<CanvasItem, { type: 'menu' }>;
+const MenuItem = (item: MenuItem) => {
+  // const { data: updatedItem } = useItemQuery(item.id);
 
-const MenuItem = (item: MenuCanvasItem) => {
+  useEffect(() => {});
+
   const [image] = useImage(item.image_url);
 
   return (
-    <Group id={item.instanceId} {...item}>
+    <Group {...item} id={item.instanceId}>
       {item.showImage && image && (
         <Image image={image} x={0} y={0} cornerRadius={[8, 8, 8, 8]} width={100} height={100} />
       )}

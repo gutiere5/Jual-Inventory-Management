@@ -36,7 +36,7 @@ export const MeatChoices = [
 
 const MeatChoicesEnum = z.enum(MeatChoices);
 
-export const StockBatch = z.object({
+export const StockBatchSchema = z.object({
   quantity_received: z.coerce.number().min(0),
   quantity_remaining: z.coerce.number().min(0),
   expiration_date: z.iso.datetime().or(z.string()).optional().default("N/A"),
@@ -44,19 +44,19 @@ export const StockBatch = z.object({
   cost_of_purchase: z.string().nullable().optional(),
 });
 
-export const Transaction = z.object({
+export const TransactionSchema = z.object({
   type: z.enum(TransactionType),
   quantity: z.coerce.number(),
   transaction_date: z.iso.datetime().or(z.string()),
 });
 
-export const Waste = z.object({
+export const WasteSchema = z.object({
   quantity: z.coerce.number(),
   reason: z.string().min(1, "Reason is required"),
   created_at: z.iso.datetime().or(z.string()),
 });
 
-export const Item = z
+export const ItemSchema = z
   .object({
     id: z.coerce.number(),
     clover_id: z.string().nullable().optional(),
@@ -72,9 +72,9 @@ export const Item = z
     image_url: z.string().optional(),
 
     meat_choices: z.array(MeatChoicesEnum).optional().default([]),
-    stock_batch: z.array(StockBatch).optional().default([]),
-    transaction: z.array(Transaction).optional().default([]),
-    waste: z.array(Waste).optional().default([]),
+    stock_batch: z.array(StockBatchSchema).optional().default([]),
+    transaction: z.array(TransactionSchema).optional().default([]),
+    waste: z.array(WasteSchema).optional().default([]),
   })
   .transform((item) => {
     const totalFromBatches = item.stock_batch.reduce(
@@ -87,7 +87,7 @@ export const Item = z
     };
   });
 
-export type Item = z.infer<typeof Item>;
-export type StockBatch = z.infer<typeof StockBatch>;
-export type Transaction = z.infer<typeof Transaction>;
-export type Waste = z.infer<typeof Waste>;
+export type Item = z.infer<typeof ItemSchema>;
+export type StockBatch = z.infer<typeof StockBatchSchema>;
+export type Transaction = z.infer<typeof TransactionSchema>;
+export type Waste = z.infer<typeof WasteSchema>;

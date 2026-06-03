@@ -26,6 +26,8 @@ const MenuItemPanel = ({ selectedItem, onUpdate }) => {
     }
   };
 
+  console.log(menuItems);
+
   return (
     <>
       <PropertySection title="Item Settings">

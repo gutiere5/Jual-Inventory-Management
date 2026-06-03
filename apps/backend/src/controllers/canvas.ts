@@ -16,44 +16,41 @@ export const getCanvas = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const getCanvasByID = asyncHandler(
-  async (req: Request, res: Response) => {
+  async (req: Request<{ id: string }>, res: Response) => {
     const { id } = req.params;
     const canvasId = Number(id);
+
     logger.info("Fetching Canvas object: ", canvasId);
 
     const requestedCanvas = await prismaClient.canvas.findUnique({
       where: {
         id: canvasId,
       },
+      include: {
+        lines: true,
+        rectangle: true,
+        text: true,
+        circle: true,
+        menuItem: true,
+      },
     });
-    logger.info(`Successfully fetched canvas data for ID: ${String(canvasId)}`);
+
+    logger.info(`Successfully fetched canvas data for ID: ${id}`);
     res.status(200).json(requestedCanvas);
   },
 );
 
 export const createCanvas = asyncHandler(
   async (req: Request, res: Response) => {
-    const { name, content } = req.body as CanvasBody;
+    const { name } = req.body as { name: string };
     logger.info("Creating new canvas with the name " + name);
 
-    const existingCanvas = await prismaClient.canvas.findUnique({
-      where: { name: name },
-    });
-
-    if (existingCanvas) {
-      logger.warn(`Attempt to create canvas with existing name: ${name}`);
-      throw new Error("Canvas with this name already exists");
-    }
-
     const newCanvas = await prismaClient.canvas.create({
-      data: {
-        name: name,
-        content: content,
-      },
+      data: { name },
     });
 
     logger.info(`Successfully created canvas with ID: ${String(newCanvas.id)}`);
-    res.status(201).json({ newCanvas });
+    res.status(201).json(newCanvas);
   },
 );
 

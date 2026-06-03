@@ -64,7 +64,7 @@ enum MeatChoice {
   ASADA_DE_POLLO
 }
 
-model user {
+model User {
   id         Int      @id @default(autoincrement())
   email      String   @unique
   username   String   @unique
@@ -73,79 +73,156 @@ model user {
   updated_at DateTime @updatedAt
 }
 
-model item {
-  id                  Int            @id @default(autoincrement())
-  clover_id           String?        @unique @db.VarChar(50)
-  sku                 String?        @unique @db.VarChar(100)
-  name                String?        @db.VarChar(255)
-  description         String?        @db.VarChar(255)
-  ingredients         String?        @db.VarChar(255)
-  uom                 UnitOfMeasure?
-  price               Decimal?       @db.Money
-  vendor_id           Int?
-  low_stock_threshold Int?           @default(10)
-  image_url           String?        @db.VarChar(255)
-  meat_choices        MeatChoice[]
-  category            Category
-  vendor              vendor?        @relation(fields: [vendor_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  stock_batch         stock_batch[]
-  transaction         transaction[]
-  waste               waste[]
-
-  @@index([clover_id], map: "item_index_clover_id")
+model Item {
+  id                Int            @id @default(autoincrement())
+  sku               String?        @unique @db.VarChar(100)
+  name              String?        @db.VarChar(255)
+  description       String?        @db.VarChar(255)
+  ingredients       String?        @db.VarChar(255)
+  uom               UnitOfMeasure?
+  price             Decimal?       @db.Money
+  vendorId          Int?
+  lowStockThreshold Int?           @default(10)
+  imageUrl          String?        @db.VarChar(255)
+  meatChoices       MeatChoice[]
+  category          Category
+  vendor            Vendor?        @relation(fields: [vendorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stockBatch        StockBatch[]
+  transaction       Transaction[]
+  waste             Waste[]
+  menuItems         MenuItem[]
 }
 
-model stock_batch {
-  id                 Int           @id @default(autoincrement())
-  item_id            Int?
-  quantity_received  Decimal       @db.Decimal(12, 3)
-  quantity_remaining Decimal       @db.Decimal(12, 3)
-  expiration_date    DateTime?     @db.Date
-  received_at        DateTime?     @default(now()) @db.Timestamp(6)
-  cost_at_purchase   Decimal?      @db.Decimal(12, 2)
-  item               item?         @relation(fields: [item_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  transaction        transaction[]
-  waste              waste[]
+model StockBatch {
+  id                Int           @id @default(autoincrement())
+  itemId            Int?
+  quantityReceived  Decimal       @db.Decimal(12, 3)
+  quantityRemaining Decimal       @db.Decimal(12, 3)
+  expirationDate    DateTime?     @db.Date
+  receivedAt        DateTime?     @default(now()) @db.Timestamp(6)
+  costAtPurchase    Decimal?      @db.Decimal(12, 2)
+  item              Item?         @relation(fields: [itemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  transaction       Transaction[]
+  waste             Waste[]
 }
 
-model transaction {
-  id               Int             @id @default(autoincrement())
-  item_id          Int?
-  batch_id         Int?
-  clover_order_id  String?         @db.VarChar(100)
-  type             TransactionType
-  quantity         Decimal?        @db.Decimal(12, 3)
-  transaction_date DateTime?       @default(now()) @db.Timestamp(6)
-  stock_batch      stock_batch?    @relation(fields: [batch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  item             item?           @relation(fields: [item_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@index([clover_order_id], map: "transaction_index_clover_order_id")
+model Transaction {
+  id              Int             @id @default(autoincrement())
+  itemId          Int?
+  batchId         Int?
+  type            TransactionType
+  quantity        Decimal?        @db.Decimal(12, 3)
+  transactionDate DateTime?       @default(now()) @db.Timestamp(6)
+  stockBatch      StockBatch?     @relation(fields: [batchId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  item            Item?           @relation(fields: [itemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model vendor {
-  id        Int     @id @default(autoincrement())
-  clover_id String? @unique @db.VarChar(50)
-  name      String? @db.VarChar(255)
-  item      item[]
-
-  @@index([clover_id], map: "vendor_index_clover_id")
+model Vendor {
+  id   Int     @id @default(autoincrement())
+  name String? @db.VarChar(255)
+  item Item[]
 }
 
-model waste {
-  id          Int          @id @default(autoincrement())
-  item_id     Int?
-  batch_id    Int?
-  quantity    Decimal      @db.Decimal(12, 3)
-  reason      WasteReason
-  created_at  DateTime     @default(now()) @db.Timestamp(6)
-  stock_batch stock_batch? @relation(fields: [batch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  item        item?        @relation(fields: [item_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model Waste {
+  id         Int         @id @default(autoincrement())
+  itemId     Int?
+  batchId    Int?
+  quantity   Decimal     @db.Decimal(12, 3)
+  reason     WasteReason
+  createdAt  DateTime    @default(now()) @db.Timestamp(6)
+  stockBatch StockBatch? @relation(fields: [batchId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  item       Item?       @relation(fields: [itemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Canvas {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  content   Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  lines     Line[]
+  rectangle Rectangle[]
+  text      Text[]
+  circle    Circle[]
+  menuItem  MenuItem[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model Line {
+  id          Int     @id @default(autoincrement())
+  type        String
+  canvasId    Int
+  canvas      Canvas  @relation(fields: [canvasId], references: [id])
+  x           Float
+  y           Float
+  scaleX      Float
+  scaleY      Float
+  points      Float[]
+  stroke      String
+  strokeWidth Float
+  label       String
+}
+
+model Rectangle {
+  id           Int       @id @default(autoincrement())
+  type         String
+  canvasId     Int
+  canvas       Canvas    @relation(fields: [canvasId], references: [id])
+  x            Float
+  y            Float
+  scaleX       Float
+  scaleY       Float
+  width        Decimal
+  height       Decimal
+  fill         String
+  stroke       String
+  strokeWidth  Decimal
+  cornerRadius Decimal
+  dash         Decimal[]
+  dashEnabled  Boolean
+  label        String
+}
+
+model Text {
+  id         Int     @id @default(autoincrement())
+  canvasId   Int
+  canvas     Canvas  @relation(fields: [canvasId], references: [id])
+  fontSize   Decimal
+  fill       String
+  fontFamily String
+  fontStyle  String
+}
+
+model Circle {
+  id          Int     @id @default(autoincrement())
+  type        String
+  canvasId    Int
+  canvas      Canvas  @relation(fields: [canvasId], references: [id])
+  x           Float
+  y           Float
+  scaleX      Float
+  scaleY      Float
+  radius      Decimal
+  fill        String
+  stroke      String
+  strokeWidth Decimal
+  label       String
+}
+
+model MenuItem {
+  id               Int     @id @default(autoincrement())
+  type             String
+  canvasId         Int
+  canvas           Canvas  @relation(fields: [canvasId], references: [id])
+  x                Float
+  y                Float
+  scaleX           Float
+  scaleY           Float
+  showTitle        Boolean
+  showImage        Boolean
+  showDescription  Boolean
+  showPrice        Boolean
+  titleStyle       String
+  descriptionStyle String
+  priceStyle       String
+  itemId           Int
+  item             Item    @relation(fields: [itemId], references: [id])
 }
