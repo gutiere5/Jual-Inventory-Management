@@ -47,13 +47,13 @@ export const StockBatchSchema = z.object({
 export const TransactionSchema = z.object({
   type: z.enum(TransactionType),
   quantity: z.coerce.number(),
-  transaction_date: z.iso.datetime().or(z.string()),
+  transactionDate: z.iso.datetime().or(z.string()),
 });
 
 export const WasteSchema = z.object({
   quantity: z.coerce.number(),
   reason: z.string().min(1, "Reason is required"),
-  created_at: z.iso.datetime().or(z.string()),
+  createdAt: z.iso.datetime().or(z.string()),
 });
 
 export const ItemSchema = z
@@ -87,7 +87,10 @@ export const ItemSchema = z
     };
   });
 
+export const ItemListSchema = z.array(ItemSchema);
+
 export type Item = z.infer<typeof ItemSchema>;
+export type ItemList = z.infer<typeof ItemListSchema>;
 export type StockBatch = z.infer<typeof StockBatchSchema>;
 export type Transaction = z.infer<typeof TransactionSchema>;
 export type Waste = z.infer<typeof WasteSchema>;

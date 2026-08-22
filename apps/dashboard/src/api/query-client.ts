@@ -17,7 +17,8 @@ const itemKeys = {
   all: ['items'] as const,
   list: () => [...itemKeys.all, 'list'] as const,
   item: (id: number) => [...itemKeys.list(), id] as const,
-  update: () => [...itemKeys.all, 'update'] as const,
+  create: () => [...itemKeys.list(), 'create'] as const,
+  update: () => [...itemKeys.list(), 'update'] as const,
 };
 
 const imageKeys = {
@@ -41,6 +42,16 @@ export function itemQueryOptions(id: number) {
     initialData: () => {
       const items = queryClient.getQueryData<Item[]>(itemKeys.list());
       return items?.find((item: Item) => item.id === id);
+    },
+  });
+}
+
+export function createItemQueryOptions() {
+  return mutationOptions({
+    mutationKey: itemKeys.create(),
+    mutationFn: (createdItem: Item) => itemService.createById(createdItem),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: itemKeys.all });
     },
   });
 }

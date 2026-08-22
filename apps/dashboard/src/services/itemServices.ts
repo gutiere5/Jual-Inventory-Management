@@ -1,20 +1,26 @@
-import { Item } from '@repo/types/item.schema';
+import { Item, ItemList, ItemListSchema, ItemSchema } from '@repo/types/item.schema';
 import AxiosClient from '../api/axios-client';
 import { z } from 'zod';
 
 export const itemService = {
-  createById: async () => {
-    const response = await AxiosClient.post<Item>('item');
+  createById: async (createdItem: Item) => {
+    const parsedItem = ItemSchema.safeParse(createdItem);
+
+    if (parsedItem.error)
+      throw new Error(`Invalid item arguments ${z.prettifyError(parsedItem.error)}`);
+
+    const response = await AxiosClient.post<Item>('item', parsedItem.data);
 
     return response.data;
   },
 
   getAll: async () => {
     try {
-      const response = await AxiosClient.get<{ items: unknown[] }>('item');
-      const parsed = z.array(Item).safeParse(response.data.items);
+      const response = await AxiosClient.get<{ items: ItemList }>('item');
 
-      if (!parsed.success) {
+      const parsed = ItemListSchema.safeParse(response.data);
+
+      if (parsed.error) {
         throw new Error(
           `Data from server does not match Item schema:\n${z.prettifyError(parsed.error)}`,
         );
@@ -29,9 +35,10 @@ export const itemService = {
 
   getById: async (id: string) => {
     try {
-      const response = await AxiosClient.get<{ item: unknown }>(`item/${id}`);
-      const parsed = Item.safeParse(response.data.item);
-      if (!parsed.success) {
+      const response = await AxiosClient.get<{ item: Item }>(`item/${id}`);
+      const parsed = ItemSchema.safeParse(response.data.item);
+
+      if (parsed.error) {
         throw new Error(
           `Item ${id} data is corrupted or invalid: \n${z.prettifyError(parsed.error)}`,
         );

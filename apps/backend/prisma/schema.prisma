@@ -135,15 +135,16 @@ model Waste {
 }
 
 model Canvas {
-  id        Int         @id @default(autoincrement())
-  name      String      @unique
-  lines     Line[]
-  rectangle Rectangle[]
-  text      Text[]
-  circle    Circle[]
-  menuItem  MenuItem[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  id             Int              @id @default(autoincrement())
+  name           String           @unique
+  lines          Line[]
+  rectangle      Rectangle[]
+  text           Text[]
+  circle         Circle[]
+  canvasSettings CanvasSettings[]
+  menuItem       MenuItem[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 }
 
 model Line {
@@ -225,4 +226,15 @@ model MenuItem {
   priceStyle       String
   itemId           Int
   item             Item    @relation(fields: [itemId], references: [id])
+}
+
+model CanvasSettings {
+  id              Int     @id @default(autoincrement())
+  width           Int
+  height          Int
+  backgroundColor String
+  showGrid        Boolean
+  gridSize        Boolean
+  canvas          Canvas? @relation(fields: [canvasId], references: [id])
+  canvasId        Int?
 }

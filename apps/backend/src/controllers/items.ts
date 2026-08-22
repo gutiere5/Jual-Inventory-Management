@@ -8,26 +8,26 @@ export const getItems = asyncHandler(async (req: Request, res: Response) => {
   logger.info("Fetching all items");
   const items = await prismaClient.item.findMany({
     include: {
-      stock_batch: {
+      stockBatch: {
         select: {
-          quantity_received: true,
-          quantity_remaining: true,
-          expiration_date: true,
-          received_at: true,
-          cost_at_purchase: true,
+          quantityReceived: true,
+          quantityRemaining: true,
+          expirationDate: true,
+          receivedAt: true,
+          costAtPurchase: true,
         },
       },
       transaction: {
-        select: { type: true, quantity: true, transaction_date: true },
+        select: { type: true, quantity: true, transactionDate: true },
       },
       waste: {
-        select: { quantity: true, reason: true, created_at: true },
+        select: { quantity: true, reason: true, createdAt: true },
       },
     },
   });
 
   logger.info(`Successfully fetched ${String(items.length)} items`);
-  res.status(200).json({ items: items });
+  res.status(200).json(items);
 });
 
 export const getItemsByID = asyncHandler(
@@ -64,17 +64,23 @@ export const getItemsByID = asyncHandler(
 );
 
 export const createItem = asyncHandler(async (req: Request, res: Response) => {
-  const { sku, name, category, uom, low_stock_threshold } = req.body as Item;
-  const existingItem = await prismaClient.item.findUnique({ where: { sku } });
+  const createdItem = req.body as Item;
+  const existingItem = await prismaClient.item.findUnique({
+    where: { sku: createdItem.sku },
+  });
   logger.info("Creating new item");
 
   if (existingItem) {
-    logger.warn(`Attempt to create item with existing SKU: ${sku}`);
+    logger.warn(`Attempt to create item with existing SKU: ${createdItem.sku}`);
     throw new Error("Item with this SKU already exists");
   }
 
   const item = await prismaClient.item.create({
-    data: { sku, name, uom, category, low_stock_threshold },
+    data: {
+      name: createdItem.name,
+      category: createdItem.category,
+      sku: createdItem.sku,
+    },
   });
 
   logger.info(`Successfully created Item ${String(item.name)}`);
